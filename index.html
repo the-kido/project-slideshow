@@ -27,8 +27,6 @@
         transition-property: opacity;
         transition-duration: 0.5s;
     }
-
-
 </style>
 
 <body>
@@ -42,13 +40,14 @@
         <img src="assets/tree.png" id="image1">
         <img src="assets/ex.png" id="image2">
         <img src="assets/distribution.png" id="image3">
+        <img src="assets/outcomes.png" id="image4">
 
     </div>
 
     <script>
         const loopTime = 3;
-        const images = ["image1", "image2", "image3"].map( (item) => document.getElementById(item))
-        const descriptions = ["Tree diagram", "E(X) calculations", "Theoretical Probability Distribution"]
+        const images = ["image1", "image2", "image3", "image4"].map( (item) => document.getElementById(item))
+        const descriptions = ["Tree diagram", "E(X) calculations", "Theoretical Probability Distribution", "All outcomes and their probabilties"]
 
         var description = document.getElementById("discription");
         var div = document.getElementsByClassName("div")[0];
@@ -84,8 +83,9 @@
                 description.innerHTML = nextDescription;
             }, 500);
         }
+
         // Updates all items automagically
-        for (var i = 0; i < 3; i++) swap();
+        for (var i = 0; i < images.length; i++) swap();
 
         setInterval(swap, loopTime * 1000);
 
