@@ -1,0 +1,93 @@
+<style>
+    /* html, body {margin: 0; height: 100%; overflow: hidden} */
+
+    div {
+        display:inline;
+    }
+
+    img {
+        position: absolute;
+        height: 80%;
+        transition-property: padding, opacity;
+        transition-duration: 2s;
+        transition-property: padding, opacity;
+        transition-duration: 2s;
+    }
+    h2 {
+        text-align: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin-bottom: 0px;
+        font-weight: 500;
+    }
+    h3 {
+        text-align: center;
+        margin: 0px;
+        font-weight: 400;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        transition-property: opacity;
+        transition-duration: 0.5s;
+    }
+
+
+</style>
+
+<body>
+    <h2>
+        Related graphs and info for the game
+    </h2>
+    <h3 id="discription">
+        helo
+    </h3>
+    <div>
+        <img src="assets/tree.png" id="image1">
+        <img src="assets/ex.png" id="image2">
+        <img src="assets/distribution.png" id="image3">
+
+    </div>
+
+    <script>
+        const loopTime = 3;
+        const images = ["image1", "image2", "image3"].map( (item) => document.getElementById(item))
+        const descriptions = ["Tree diagram", "E(X) calculations", "Theoretical Probability Distribution"]
+
+        var description = document.getElementById("discription");
+        var div = document.getElementsByClassName("div")[0];
+        const root = document.querySelector(':root');
+        
+        var visibleImage = images[0]
+        var hiddenImage = images[1]
+
+        var imageOn = 0;
+
+        function swap() {
+            swapText();
+            
+            var leftPadding = (root.scrollWidth - hiddenImage.width ) / 2;
+            hiddenImage.style.paddingLeft = leftPadding + 'px'; // Overlap old image with new image.
+
+            visibleImage.style.paddingLeft = (root.scrollWidth + visibleImage.width / 2) + "px"
+            visibleImage.style.opacity = 0;
+            hiddenImage.style.opacity = 1
+            
+            imageOn = (imageOn + 1) % images.length
+
+            var temp = hiddenImage 
+            hiddenImage = images[imageOn];
+            visibleImage = temp; 
+        }
+
+        function swapText() {
+            var nextDescription = descriptions[imageOn]
+            description.style.opacity = 0
+            setTimeout(() => {
+                description.style.opacity = 1;   
+                description.innerHTML = nextDescription;
+            }, 500);
+        }
+        // Updates all items automagically
+        for (var i = 0; i < 3; i++) swap();
+
+        setInterval(swap, loopTime * 1000);
+
+    </script>
+</body>
