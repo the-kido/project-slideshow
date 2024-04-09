@@ -1,5 +1,12 @@
 <style>
-    /* html, body {margin: 0; height: 100%; overflow: hidden} */
+    html, body {margin: 0; height: 100%; overflow: hidden}
+
+    body {
+        background-color:aliceblue;
+        opacity: 0;
+        transition-duration: 1s;
+        transition-property: opacity background-color;
+    }
 
     div {
         display:inline;
@@ -16,7 +23,7 @@
     h2 {
         text-align: center;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        margin-bottom: 0px;
+        margin: 0px;
         font-weight: 500;
     }
     h3 {
@@ -27,54 +34,122 @@
         transition-property: opacity;
         transition-duration: 0.5s;
     }
+    .special {
+        position: absolute;
+        width: 100px;
+        /* padding-top: 90%; */
+        height: 100px;
+    }
+    button {
+        height: 30px;
+        background: aliceblue;
+        border-radius: 20px;
+        border: 4px solid rgb(189, 206, 218);
+        transition-duration: 0.125s;
+        transition-property: background;
+    }
+    button:hover {
+        background: rgb(189, 206, 218);
+    }
+    button:active {
+        background-color: rgb(167, 214, 214);
+        border-color: rgb(167, 214, 214);
+    }
+
+
+    .header {
+        background-color: aliceblue;
+        padding-bottom: 10px;
+    }
+
 </style>
 
 <body>
+    <h2 class="Header">
+        <button class="choice" onclick="temp()">
+            Tree diagram
+        </button>
+        <button class="choice">
+            E(X) calculations
+        </button>
+        <button class="choice">
+            Distributions
+        </button >
+        <button class="choice">
+            Outcomes
+        </button>
+        <button class="choice">
+            Loop
+        </button>
+    </h2>
     <h2>
         Related graphs and info for the game
     </h2>
     <h3 id="discription">
         helo
     </h3>
+    
     <div>
         <img src="assets/tree.png" id="image1">
         <img src="assets/ex.png" id="image2">
         <img src="assets/distribution.png" id="image3">
         <img src="assets/outcomes.png" id="image4">
-
     </div>
-
+    
     <script>
         const loopTime = 3;
         const images = ["image1", "image2", "image3", "image4"].map( (item) => document.getElementById(item))
+        const buttons = document.getElementsByClassName("choice");
+
+        
         const descriptions = ["Tree diagram", "E(X) calculations", "Theoretical Probability Distribution", "All outcomes and their probabilties"]
 
         var description = document.getElementById("discription");
         var div = document.getElementsByClassName("div")[0];
         const root = document.querySelector(':root');
         
-        var visibleImage = images[0]
-        var hiddenImage = images[1]
+        var visibleImage = images[3]
+        var hiddenImage = images[0]
 
         var imageOn = 0;
+        var nextImage = 1;
+
+        function switchToImage(i) {
+            clearInterval(interval);
+            interval = null;
+            if (i === imageOn) return;
+
+            visibleImage = images[i]
+            show(images[i]);
+            hiddenImage = images[imageOn] 
+            hide(images[imageOn])
+            imageOn = i;
+            swapText()
+        }
 
         function swap() {
-            swapText();
-            
-            var leftPadding = (root.scrollWidth - hiddenImage.width ) / 2;
-            hiddenImage.style.paddingLeft = leftPadding + 'px'; // Overlap old image with new image.
-
-            visibleImage.style.paddingLeft = (root.scrollWidth + visibleImage.width / 2) + "px"
-            visibleImage.style.opacity = 0;
-            hiddenImage.style.opacity = 1
-            
             imageOn = (imageOn + 1) % images.length
-
+            
             var temp = hiddenImage 
             hiddenImage = images[imageOn];
             visibleImage = temp; 
+
+            swapText();
+            show(hiddenImage)
+            hide(visibleImage)
         }
 
+        function show(image) {
+            var leftPadding = (root.scrollWidth - image.width ) / 2;
+            image.style.paddingLeft = leftPadding + 'px'; // Overlap old image with new image.
+            image.style.opacity = 1
+        }
+
+        function hide(image) {
+            image.style.paddingLeft = (root.scrollWidth + image.width / 2) + "px"
+            image.style.opacity = 0
+        }
+        
         function swapText() {
             var nextDescription = descriptions[imageOn]
             description.style.opacity = 0
@@ -84,10 +159,41 @@
             }, 500);
         }
 
-        // Updates all items automagically
-        for (var i = 0; i < images.length; i++) swap();
+        function update(item) {
+            var leftPadding = (root.scrollWidth - item.width ) / 2;
+            item.style.paddingLeft = leftPadding + 'px'; // Overlap old image with new image.
+        }
+        
+        // Set up every button from 0 to 3 to switch image when pressed
+        for (let i = 0; i < images.length; i++) 
+            buttons[i].onclick = () => switchToImage(i)
 
-        setInterval(swap, loopTime * 1000);
+        // Set up the last button which re-loops
+        buttons[images.length].onclick = function() {
+            // Only start the loop again if the interval has no value (i.e it's null)
+            if (interval !== null) return;
 
+            hide(images[imageOn]) // Hide whatever thing we are on right now
+            swap()
+                interval = setInterval(swap, loopTime * 1000);
+        }
+
+        // Hide all elements
+        for (var i = 0; i < images.length; i++) 
+            hide(images[i]);
+        
+        // Start the interval for the loop
+        var interval = setInterval(swap, loopTime * 1000);
+        
+        // Initially run swap while loading to fix everything up
+        setTimeout(() => {
+            swap()
+        }, 100);
+        
+        // Acts as a loading screen
+        setTimeout(() => {
+            document.body.style.opacity = 1
+            document.body.style.backgroundColor = "white";
+        }, 1000);
     </script>
 </body>
