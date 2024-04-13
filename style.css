@@ -1,0 +1,98 @@
+html, body {
+    margin: 0; height: 100%; overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+:root {
+    --background: #f0f8ff;
+    --pressed: rgb(167, 214, 214);
+    --border: #7b96c5;
+    --dark: #bdceda;
+}
+
+body {
+    background-color:aliceblue;
+    opacity: 0;
+    transition-duration: 2s;
+    transition-property: opacity background-color;
+}
+
+img, .box {
+    position: absolute;
+    height: 80%;
+    transition-property: margin, opacity;
+    transition-duration: 2s;
+    padding: 20px;
+}
+
+/* Title */
+h2 {
+    text-align: center;
+    margin: 0px;
+    font-weight: 500;
+}
+/* Description */
+h3 {
+    text-align: center;
+    margin: 0px;
+    font-weight: 400;
+    transition-property: opacity;
+    transition-duration: 0.5s;
+}
+
+button {
+    font-weight: 600;
+    color: var(--border);
+    height: 30px;
+    background: aliceblue;
+    border-radius: 20px;
+    border: 4px solid var(--border);
+    transition-duration: 0.25s;
+    transition-property: color, border-color;
+    margin: 2px;
+}
+
+button:hover {
+    background: var(--border);
+    color: var(--background);
+}
+
+button:disabled {
+    border-color: var(--dark);
+    background-color: var(--background);
+    
+    transition-duration: 0s;
+
+    color: var(--dark);
+}
+
+.header {
+    background-color: var(--background);
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 7px;
+    padding-top: 7px;
+}
+
+ol {
+    margin: 0px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+.box {
+    position: absolute;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+    
+    margin-top: 20px;
+    height: 70%;
+    width: 80%;
+    background-color: aliceblue;
+}

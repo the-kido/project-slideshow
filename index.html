@@ -1,81 +1,11 @@
-<style>
-    html, body {
-        margin: 0; height: 100%; overflow: hidden;
-    }
-
-    :root {
-        --background: #f0f8ff;
-        --pressed: rgb(167, 214, 214);
-        --border: #bdceda;
-        
-    }
-
-    body {
-        background-color:aliceblue;
-        opacity: 0;
-        transition-duration: 1s;
-        transition-property: opacity background-color;
-    }
-
-    div {
-        display:inline;
-    }
-
-    img {
-        position: absolute;
-        height: 80%;
-        transition-property: padding, opacity;
-        transition-duration: 2s;
-        transition-property: padding, opacity;
-        transition-duration: 2s;
-    }
-
-    h2 {
-        text-align: center;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        margin: 0px;
-        font-weight: 500;
-    }
-
-    h3 {
-        text-align: center;
-        margin: 0px;
-        font-weight: 400;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        transition-property: opacity;
-        transition-duration: 0.5s;
-    }
-
-    button {
-        height: 30px;
-        background: aliceblue;
-        border-radius: 20px;
-        border: 4px solid var(--border);
-        transition-duration: 0.125s;
-        transition-property: background;
-    }
-
-    button:hover {
-        background: var(--border);
-    }
-
-    button:disabled {
-        transition-property: border-color;
-        border-color: #7b96c5;
-        background-color: var(--background);
-        color: #7b96c5;
-    }
-
-    .header {
-        background-color: var(--background);
-        padding-bottom: 10px;
-    }
-
-</style>
+<link rel="stylesheet" href="style.css">
 
 <body>
-    <h2 class="Header">
-        <button class="choice" onclick="temp()">
+    <h2 class="header">
+        <button class="choice">
+            How to play
+        </button>
+        <button class="choice">
             Tree diagram
         </button>
         <button class="choice">
@@ -87,6 +17,8 @@
         <button class="choice">
             Outcomes
         </button>
+        <hr style="margin-top: 0; margin-bottom: 0; margin-left: 10px; margin-right: 10px; border: 2px solid var(--dark);">
+
         <button class="choice" disabled>
             Loop
         </button>
@@ -101,121 +33,41 @@
     </h3>
     
     <div>
+        <div class="box" id="image0">
+            <div style="width: 50%;">
+                <b>How to play</b>
+                <ol>
+                    <li>At the center outside a checkerboard, you begin a journey of coin flips to dictate your path to your reward</li>
+                    <li>When you flip a coin, you go left (tails) or right (head)</li>
+                    <li>There are 4 types of tiles: blockades, bridges, death tiles, and reward tiles
+                        <ul>
+                            <li>You cannot move into blockades </li>
+                            <li>Bridges let you go over water </li>
+                            <li>Death tiles make you loose your data dollar </li>
+                            <li>Reward tiles give you data dollars. You can win 1, 2, or 3 data dollars</li>
+                        </ul>
+                    </li>
+                    <li>
+                        If you land onto a reward (or death) tile, your game ends!
+                    </li>
+                </ol>
+            </div>
+
+            <div>
+                <b> Resources needed </b>
+                <ol>
+                    <li> The game board</li>
+                    <li> A play peice</li>
+                    <li> A coin or <a href="https://the-kido.github.io/randomize/" style="color: var(--border);">my special website</a></li>
+                </ol>
+            </div>
+        </div>
+
         <img src="assets/tree.png" id="image1">
         <img src="assets/ex.png" id="image2">
         <img src="assets/distribution.png" id="image3">
         <img src="assets/outcomes.png" id="image4">
     </div>
     
-    <script>
-        const loopTime = 6;
-        const images = ["image1", "image2", "image3", "image4"].map( (item) => document.getElementById(item))
-        const buttons = document.getElementsByClassName("choice");
-
-        
-        const descriptions = ["Tree diagram", "E(X) calculations", "Theoretical Probability Distribution", "All outcomes and their probabilties"]
-
-        var description = document.getElementById("description");
-        const root = document.querySelector(':root');
-        
-        var visibleImage = images[3]
-        var hiddenImage = images[0]
-
-        var imageOn = 0;
-        var nextImage = 1;
-
-        function switchToImage(i) {
-            // Emable the loop button since now we're manually looking
-            buttons[images.length].disabled = false;   
-
-            clearInterval(interval);
-            interval = null;
-            if (i === imageOn) return;
-
-            visibleImage = images[i]
-            show(images[i]);
-            hiddenImage = images[imageOn] 
-            hide(images[imageOn])
-            imageOn = i;
-            swapText()
-        }
-
-        function swap() {
-            imageOn = (imageOn + 1) % images.length
-            
-            var temp = hiddenImage 
-            hiddenImage = images[imageOn];
-            visibleImage = temp; 
-
-            swapText();
-            show(hiddenImage)
-            hide(visibleImage)
-        }
-
-        function show(image) {
-            // Disable the button for the image we're showing
-            buttons[images.indexOf(image)].disabled = true;   
-            
-            var leftPadding = (root.scrollWidth - image.width ) / 2;
-            image.style.paddingLeft = leftPadding + 'px'; // Overlap old image with new image.
-            image.style.opacity = 1
-        }
-        
-        function hide(image) {
-            // Enable the button for the image we're showing
-            buttons[images.indexOf(image)].disabled = false;   
-
-            image.style.paddingLeft = (root.scrollWidth + image.width / 2) + "px"
-            image.style.opacity = 0
-        }
-        
-        function swapText() {
-            var nextDescription = descriptions[imageOn]
-            description.style.opacity = 0
-            setTimeout(() => {
-                description.style.opacity = 1;   
-                description.innerHTML = nextDescription;
-            }, 500);
-        }
-
-        function update(item) {
-            var leftPadding = (root.scrollWidth - item.width ) / 2;
-            item.style.paddingLeft = leftPadding + 'px'; // Overlap old image with new image.
-        }
-        
-        // Set up every button from 0 to 3 to switch image when pressed
-        for (let i = 0; i < images.length; i++) 
-            buttons[i].onclick = () => switchToImage(i)
-
-        // Set up the last button which re-loops
-        buttons[images.length].onclick = function() {
-            // Only start the loop again if the interval has no value (i.e it's null)
-            if (interval !== null) return;
-            
-            // Disable the loop button
-            buttons[images.length].disabled = true;   
-
-            hide(images[imageOn]) // Hide whatever thing we are on right now
-            swap()
-                interval = setInterval(swap, loopTime * 1000);
-        }
-    
-        // Hide all elements
-        for (var i = 0; i < images.length; i++) 
-            hide(images[i]);
-        
-        // Start the interval for the loop
-        var interval = setInterval(swap, loopTime * 1000);
-        
-        // Initially run swap while loading to fix everything up
-        setTimeout(() => {
-            swap()
-        }, 100);
-        
-        // Acts as a loading screen
-        setTimeout(() => {
-            document.body.style.opacity = 1
-            document.body.style.backgroundColor = "white";
-        }, 1000);
-    </script>
+    <script src="script.js"> </script>
 </body>
