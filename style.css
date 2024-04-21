@@ -1,7 +1,6 @@
 html, body {
     margin: 0; height: 100%; overflow: hidden;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
 }
 
 :root {
@@ -9,6 +8,31 @@ html, body {
     --pressed: rgb(167, 214, 214);
     --border: #7b96c5;
     --dark: #bdceda;
+    --loop-time: 9s;
+}
+
+.loopy, .loopy:hover {
+    background-image: linear-gradient(to right, #bdceda77 var(--loop-progress) 0%, rgba(255, 255, 255, 0) var(--loop-progress) 100%);
+    
+    animation-name: makeProgress;
+    animation-timing-function: linear;
+    animation-duration: var(--loop-time);
+    animation-iteration-count: infinite;
+}
+
+@property --loop-progress {
+    syntax: "<percentage>";
+    initial-value: 0%;
+    inherits: true;
+}
+
+@keyframes makeProgress {
+    from {
+        --loop-progress: 0%;
+    }
+    to {
+        --loop-progress: 100%;
+    }
 }
 
 body {
@@ -18,7 +42,7 @@ body {
     transition-property: opacity background-color;
 }
 
-img, .box {
+.sliding-img, .box {
     position: absolute;
     height: 80%;
     transition-property: margin, opacity;
@@ -63,7 +87,6 @@ button:disabled {
     background-color: var(--background);
     
     transition-duration: 0s;
-
     color: var(--dark);
 }
 

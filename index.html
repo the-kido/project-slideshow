@@ -17,9 +17,13 @@
         <button class="choice">
             Outcomes
         </button>
+        <button class="choice">
+            Probability Calculations
+        </button>
+
         <hr style="margin-top: 0; margin-bottom: 0; margin-left: 10px; margin-right: 10px; border: 2px solid var(--dark);">
 
-        <button class="choice" disabled>
+        <button class="choice loopy" disabled>
             Loop
         </button>
     </h2>
@@ -62,11 +66,29 @@
                 </ol>
             </div>
         </div>
-
-        <img src="assets/tree.png" id="image1">
-        <img src="assets/ex.png" id="image2">
-        <img src="assets/distribution.png" id="image3">
-        <img src="assets/outcomes.png" id="image4">
+        <img src="assets/tree.png" id="image1" class="sliding-img">
+        <img src="assets/ex.png" id="image2" class="sliding-img">
+        <img src="assets/distribution.png" id="image3" class="sliding-img">
+        <img src="assets/outcomes.png" id="image4" class="sliding-img">
+        <div class="box" id="image5">
+            <div style="width: 50%;">
+                Calculations for probabilities are similar to how we use pascal's triangle.
+                <br><br>
+                Tile A's probability is found by adding the probabilities of coming from B and C.<br>
+                There is a 50% chance B or C goes to A and another 50% chance it goes elsewhere.<br>
+                    A's probability is equal to 50% of B and 50% of C added together!<br><br>
+                
+                <b style="font-family: monospace; tab-size: 2;">
+                    <pre style="margin: 0;">      
+P(B going to A)   P(C going to A)     P(A)
+  31.5% × 0.5   +   12.5 × 0.5   =   21.9% 
+                    </pre>
+                </b>
+            </div>
+            <div>
+                <img src="assets/probability calculations.png" class="demonstration-image">
+            </div>
+        </div>
     </div>
     
     <script src="script.js"> </script>

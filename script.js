@@ -1,12 +1,19 @@
-const loopTime = 6;
-const images = ["image0", "image1", "image2", "image3", "image4"].map( (item) => document.getElementById(item))
+const root = document.querySelector(':root');
+const loopTime = parseInt(getComputedStyle(root).getPropertyValue("--loop-time"));
+
+const images = ["image0", "image1", "image2", "image3", "image4", "image5"].map( (item) => document.getElementById(item))
 const buttons = document.getElementsByClassName("choice");
 
-
-const descriptions = ["How to play | Resources", "Tree diagram", "E(X) calculations", "Theoretical Probability Distribution", "All outcomes and their probabilties"]
+const descriptions = [
+    "How to play | Resources", 
+    "Tree diagram", 
+    "E(X) calculations", 
+    "Theoretical Probability Distribution", 
+    "All outcomes and their probabilties", 
+    "How probabilities are calculated"
+]
 
 var description = document.getElementById("description");
-const root = document.querySelector(':root');
 
 var visibleImage = images[1]
 var hiddenImage = images[0]
@@ -15,7 +22,8 @@ var imageOn = 0;
 
 function switchToImage(i) {
     // Emable the loop button since now we're manually looking
-    buttons[images.length].disabled = false;   
+    buttons[images.length].disabled = false;
+    buttons[images.length].classList.remove("loopy");   
 
     clearInterval(interval);
     interval = null;
@@ -83,6 +91,7 @@ buttons[images.length].onclick = function() {
     
     // Disable the loop button
     buttons[images.length].disabled = true;   
+    buttons[images.length].classList.add("loopy");   
 
     hide(images[imageOn]) // Hide whatever thing we are on right now
     swap()
