@@ -86,7 +86,7 @@ buttons[images.length].onclick = function() {
 
     hide(images[imageOn]) // Hide whatever thing we are on right now
     swap()
-        interval = setInterval(swap, loopTime * 1000);
+    interval = setInterval(swap, loopTime * 1000);
 }
 
 // Hide all elements
